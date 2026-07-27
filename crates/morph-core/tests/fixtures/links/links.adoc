@@ -1,0 +1,3 @@
+https://example.com[Click here] to visit the site.
+
+Visit https://example.org[Another link] for more.

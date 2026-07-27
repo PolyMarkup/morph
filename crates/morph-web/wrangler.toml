@@ -1,0 +1,9 @@
+name = "morph-web"
+main = "build/worker/shim.mjs"
+compatibility_date = "2025-01-01"
+
+[build]
+command = "cargo install -q worker-build && worker-build --release"
+
+[assets]
+directory = "./static"

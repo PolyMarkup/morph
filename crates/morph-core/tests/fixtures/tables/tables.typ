@@ -1,0 +1,15 @@
+#table(
+  columns: 3,
+  [Name],
+  [Role],
+  [City],
+  [Alice],
+  [Developer],
+  [London],
+  [Bob],
+  [Designer],
+  [Paris],
+  [Carol],
+  [Manager],
+  [Berlin],
+)

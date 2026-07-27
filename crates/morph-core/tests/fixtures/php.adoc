@@ -1,0 +1,21 @@
+[source,html]
+----
+<div class="test">Hello</div>
+----
+
+[source,powershell]
+----
+Get-Process | Where-Object { $_.CPU -gt 10 }
+----
+
+[source,php]
+----
+<?php
+class Test {
+    private $value = "hello";
+
+    public function getValue(): string {
+        return $this->value;
+    }
+}
+----

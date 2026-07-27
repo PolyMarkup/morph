@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>morph - universal markup converter</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #fff;
+    --border: #ddd;
+    --text: #1a1a1a;
+    --muted: #666;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --code-bg: #f5f5f5;
+    --radius: 6px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111;
+      --surface: #1a1a1a;
+      --border: #333;
+      --text: #e5e5e5;
+      --muted: #999;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --code-bg: #222;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
+  select, textarea {
+    width: 100%;
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-size: 0.85rem;
+    background: var(--code-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+  }
+  select { font-family: inherit; margin-bottom: 0.75rem; }
+  textarea { resize: vertical; min-height: 300px; }
+  .checkboxes { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .checkboxes label { display: flex; align-items: center; gap: 0.3rem; font-weight: 400; cursor: pointer; }
+  .actions { display: flex; gap: 0.75rem; margin: 1.5rem 0; }
+  button {
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .output-section { margin-top: 1rem; }
+  .output-block { margin-bottom: 1rem; }
+  .output-block h3 { font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--muted); }
+  .output-block pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-height: 60px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .error { color: #dc2626; }
+</style>
+</head>
+<body>
+<h1>morph</h1>
+<p class="subtitle">Universal markup converter: Markdown, AsciiDoc, reStructuredText, Typst, LaTeX</p>
+
+<div class="grid">
+  <div class="panel">
+    <label for="from-format">Input format</label>
+    <select id="from-format">
+      <option value="md">Markdown</option>
+      <option value="adoc">AsciiDoc</option>
+      <option value="rst">reStructuredText</option>
+      <option value="typ">Typst</option>
+      <option value="tex">LaTeX</option>
+    </select>
+    <label for="input-text">Input</label>
+    <textarea id="input-text" placeholder="Paste your markup here...">## Hello world
+
+This is a **bold** and *italic* paragraph.
+
+- Item one
+- Item two
+- Item three
+
+```python
+print("Hello from morph!")
+```
+</textarea>
+  </div>
+
+  <div class="panel">
+    <label>Output formats</label>
+    <div class="checkboxes" id="to-formats">
+      <label><input type="checkbox" value="md"> Markdown</label>
+      <label><input type="checkbox" value="adoc" checked> AsciiDoc</label>
+      <label><input type="checkbox" value="rst" checked> reStructuredText</label>
+      <label><input type="checkbox" value="typ" checked> Typst</label>
+      <label><input type="checkbox" value="tex" checked> LaTeX</label>
+    </div>
+    <div class="output-section" id="output-section"></div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn-primary" id="convert-btn">Convert</button>
+</div>
+
+<script>
+const fromSelect = document.getElementById("from-format");
+const inputText = document.getElementById("input-text");
+const outputSection = document.getElementById("output-section");
+const convertBtn = document.getElementById("convert-btn");
+
+const formatNames = { md: "Markdown", adoc: "AsciiDoc", rst: "reStructuredText", typ: "Typst", tex: "LaTeX" };
+
+convertBtn.addEventListener("click", async () => {
+  const from = fromSelect.value;
+  const input = inputText.value;
+  const checked = [...document.querySelectorAll("#to-formats input:checked")].map(c => c.value);
+
+  if (!input.trim()) return;
+  if (checked.length === 0) { outputSection.innerHTML = '<p class="error">Select at least one output format.</p>'; return; }
+
+  convertBtn.disabled = true;
+  convertBtn.textContent = "Converting...";
+
+  try {
+    const res = await fetch("/api/convert", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input, from, to: checked }),
+    });
+    if (!res.ok) {
+      throw new Error(await res.text());
+    }
+    const data = await res.json();
+    outputSection.innerHTML = "";
+
+    for (const r of data.results) {
+      const block = document.createElement("div");
+      block.className = "output-block";
+      const title = document.createElement("h3");
+      title.textContent = formatNames[r.format] || r.format;
+      block.appendChild(title);
+      const pre = document.createElement("pre");
+      if (r.error) {
+        pre.className = "error";
+        pre.textContent = r.error;
+      } else {
+        pre.textContent = r.output;
+      }
+      block.appendChild(pre);
+      outputSection.appendChild(block);
+    }
+  } catch (e) {
+    outputSection.innerHTML = `<p class="error">Request failed: ${e.message}</p>`;
+  } finally {
+    convertBtn.disabled = false;
+    convertBtn.textContent = "Convert";
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[package]
+name = "morph"
+version.workspace = true
+edition.workspace = true
+description = "Universal markup converter: Markdown, AsciiDoc, reStructuredText, Typst, LaTeX"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+
+[dev-dependencies]
+pretty_assertions.workspace = true
