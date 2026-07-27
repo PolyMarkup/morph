@@ -34,6 +34,31 @@ const FORMATS: &[FormatInfo] = &[
         extension: "tex",
         name: "LaTeX",
     },
+    FormatInfo {
+        format: Format::Djot,
+        extension: "dj",
+        name: "Djot",
+    },
+    FormatInfo {
+        format: Format::Org,
+        extension: "org",
+        name: "Org mode",
+    },
+    FormatInfo {
+        format: Format::Textile,
+        extension: "textile",
+        name: "Textile",
+    },
+    FormatInfo {
+        format: Format::Html,
+        extension: "html",
+        name: "HTML",
+    },
+    FormatInfo {
+        format: Format::DocBook,
+        extension: "dbk",
+        name: "DocBook",
+    },
 ];
 
 fn run_category(category: &str) {
@@ -208,6 +233,21 @@ const SPAN_FORMATS: &[FormatInfo] = &[
         format: Format::Latex,
         extension: "tex",
         name: "LaTeX",
+    },
+    FormatInfo {
+        format: Format::Textile,
+        extension: "textile",
+        name: "Textile",
+    },
+    FormatInfo {
+        format: Format::Html,
+        extension: "html",
+        name: "HTML",
+    },
+    FormatInfo {
+        format: Format::DocBook,
+        extension: "dbk",
+        name: "DocBook",
     },
 ];
 

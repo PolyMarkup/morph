@@ -21,6 +21,11 @@ pub fn parse(input: &str, format: Format) -> Result<Document, ParseError> {
         Format::Rst => formats::rst::RstParser.parse(input),
         Format::Typst => formats::typst::TypstParser.parse(input),
         Format::Latex => formats::latex::LatexParser.parse(input),
+        Format::Djot => formats::djot::DjotParser.parse(input),
+        Format::Org => formats::org::OrgParser.parse(input),
+        Format::Textile => formats::textile::TextileParser.parse(input),
+        Format::Html => formats::html::HtmlParser.parse(input),
+        Format::DocBook => formats::docbook::DocBookParser.parse(input),
     }
 }
 
@@ -32,5 +37,10 @@ pub fn emit(doc: &Document, format: Format) -> Result<String, EmitError> {
         Format::Rst => formats::rst::RstEmitter.emit(doc),
         Format::Typst => formats::typst::TypstEmitter.emit(doc),
         Format::Latex => formats::latex::LatexEmitter.emit(doc),
+        Format::Djot => formats::djot::DjotEmitter.emit(doc),
+        Format::Org => formats::org::OrgEmitter.emit(doc),
+        Format::Textile => formats::textile::TextileEmitter.emit(doc),
+        Format::Html => formats::html::HtmlEmitter.emit(doc),
+        Format::DocBook => formats::docbook::DocBookEmitter.emit(doc),
     }
 }

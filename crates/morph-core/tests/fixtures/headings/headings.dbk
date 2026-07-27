@@ -1,0 +1,5 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<bridgehead renderas="sect1">Heading level 1</bridgehead>
+<bridgehead renderas="sect2">Heading level 2</bridgehead>
+<bridgehead renderas="sect3">Heading level 3</bridgehead>
+</article>

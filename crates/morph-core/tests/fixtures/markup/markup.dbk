@@ -1,0 +1,6 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<para>This has <emphasis role="strong">bold</emphasis> text.</para>
+<para>This has <emphasis>italic</emphasis> text.</para>
+<para>This has <emphasis role="strong">bold</emphasis> and <emphasis>italic</emphasis> together.</para>
+<para>This has <code>inline code</code> within text.</para>
+</article>

@@ -1,7 +1,7 @@
 # Morph
 
-Morph is a universal markup converter for Markdown, AsciiDoc,
-reStructuredText, Typst, and LaTeX.
+Morph is a lossless, dependency-free markup converter for Markdown, AsciiDoc,
+reStructuredText, Typst, LaTeX, Djot, Org mode, Textile, HTML, and DocBook.
 
 ## Install
 
@@ -37,18 +37,39 @@ printf '# Hello\n' | morph --from markdown --to asciidoc
 
 Run `morph --help` for all options and format names.
 
+## Supported formats
+
+| Format | Names and extensions | Input | Output |
+| --- | --- | --- | --- |
+| Markdown | `md`, `markdown` | yes | yes |
+| AsciiDoc | `adoc`, `asciidoc`, `asc` | yes | yes |
+| reStructuredText | `rst`, `restructuredtext` | yes | yes |
+| Typst | `typ`, `typst` | yes | yes |
+| LaTeX | `tex`, `latex` | yes | yes |
+| Djot | `dj`, `djot` | yes | yes |
+| Org mode | `org`, `org-mode`, `orgmode` | yes | yes |
+| Textile | `textile` | yes | yes |
+| strict HTML | `html`, `htm` | yes | yes |
+| strict DocBook | `dbk`, `docbook` | yes | yes |
+
+HTML and DocBook input is deliberately strict. Morph accepts the semantic
+subset it can represent without loss and rejects unknown elements, unsupported
+attributes, malformed nesting, or ambiguous block text. This makes conversions
+such as AsciiDoc → HTML → AsciiDoc structurally lossless for supported
+constructs. Generic XML is not guessed as DocBook; use `--from docbook` for an
+XML file or the `.dbk` extension.
+
 ## How does Morph compare to Pandoc?
 
 [Pandoc](https://pandoc.org/) is the better choice when you need a broad
 document-processing toolkit: it supports many more formats, citations,
 templates, filters, and PDF generation.
 
-Morph is a smaller, focused converter for Markdown, AsciiDoc,
-reStructuredText, Typst, and LaTeX. Its priority is **lossless conversion for
-supported constructs**. Morph's shared AST explicitly represents structure
-such as nested blocks, inline markup, and table row and column spans, and its
-test suite checks conversions between every supported format as well as
-round trips.
+Morph is a smaller, focused converter for ten text-based markup formats. Its
+priority is **lossless conversion for supported constructs**. Morph's shared
+AST explicitly represents structure such as nested blocks, inline markup, and
+table row and column spans, and its test suite checks conversions between every
+supported format as well as round trips.
 
 "Lossless" here means semantic rather than byte-for-byte preservation: when a
 construct is represented by Morph and both formats can express it, converting
@@ -86,8 +107,8 @@ Releases are built by GitHub Actions with
 in `Cargo.toml`, commit it, then push a matching version tag:
 
 ```sh
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.2.0
+git push origin v0.2.0
 ```
 
 The workflow publishes macOS, Linux, and Windows binaries, checksums, and the

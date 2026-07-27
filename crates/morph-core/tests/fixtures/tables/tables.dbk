@@ -1,0 +1,15 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<informaltable><tgroup cols="3">
+<colspec colname="c1"/>
+<colspec colname="c2"/>
+<colspec colname="c3"/>
+<thead>
+<row><entry>Name</entry><entry>Role</entry><entry>City</entry></row>
+</thead>
+<tbody>
+<row><entry>Alice</entry><entry>Developer</entry><entry>London</entry></row>
+<row><entry>Bob</entry><entry>Designer</entry><entry>Paris</entry></row>
+<row><entry>Carol</entry><entry>Manager</entry><entry>Berlin</entry></row>
+</tbody>
+</tgroup></informaltable>
+</article>

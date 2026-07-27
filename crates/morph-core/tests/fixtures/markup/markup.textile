@@ -1,0 +1,7 @@
+This has *bold* text.
+
+This has _italic_ text.
+
+This has *bold* and _italic_ together.
+
+This has @inline code@ within text.

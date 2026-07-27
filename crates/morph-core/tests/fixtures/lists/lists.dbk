@@ -1,0 +1,40 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<itemizedlist>
+<listitem>
+<para>First item</para>
+</listitem>
+<listitem>
+<para>Second item</para>
+<itemizedlist>
+<listitem>
+<para>Nested A</para>
+</listitem>
+<listitem>
+<para>Nested B</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<para>Third item</para>
+</listitem>
+</itemizedlist>
+<orderedlist>
+<listitem>
+<para>Step one</para>
+</listitem>
+<listitem>
+<para>Step two</para>
+<orderedlist>
+<listitem>
+<para>Sub step one</para>
+</listitem>
+<listitem>
+<para>Sub step two</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para>Step three</para>
+</listitem>
+</orderedlist>
+</article>

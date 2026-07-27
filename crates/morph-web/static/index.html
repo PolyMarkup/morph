@@ -96,7 +96,7 @@
 </head>
 <body>
 <h1>morph</h1>
-<p class="subtitle">Universal markup converter: Markdown, AsciiDoc, reStructuredText, Typst, LaTeX</p>
+<p class="subtitle">Lossless, dependency-free markup conversion across ten formats</p>
 
 <div class="grid">
   <div class="panel">
@@ -107,6 +107,11 @@
       <option value="rst">reStructuredText</option>
       <option value="typ">Typst</option>
       <option value="tex">LaTeX</option>
+      <option value="dj">Djot</option>
+      <option value="org">Org mode</option>
+      <option value="textile">Textile</option>
+      <option value="html">strict HTML</option>
+      <option value="dbk">strict DocBook</option>
     </select>
     <label for="input-text">Input</label>
     <textarea id="input-text" placeholder="Paste your markup here...">## Hello world
@@ -131,6 +136,11 @@ print("Hello from morph!")
       <label><input type="checkbox" value="rst" checked> reStructuredText</label>
       <label><input type="checkbox" value="typ" checked> Typst</label>
       <label><input type="checkbox" value="tex" checked> LaTeX</label>
+      <label><input type="checkbox" value="dj" checked> Djot</label>
+      <label><input type="checkbox" value="org" checked> Org mode</label>
+      <label><input type="checkbox" value="textile" checked> Textile</label>
+      <label><input type="checkbox" value="html" checked> strict HTML</label>
+      <label><input type="checkbox" value="dbk" checked> strict DocBook</label>
     </div>
     <div class="output-section" id="output-section"></div>
   </div>
@@ -146,7 +156,18 @@ const inputText = document.getElementById("input-text");
 const outputSection = document.getElementById("output-section");
 const convertBtn = document.getElementById("convert-btn");
 
-const formatNames = { md: "Markdown", adoc: "AsciiDoc", rst: "reStructuredText", typ: "Typst", tex: "LaTeX" };
+const formatNames = {
+  md: "Markdown",
+  adoc: "AsciiDoc",
+  rst: "reStructuredText",
+  typ: "Typst",
+  tex: "LaTeX",
+  dj: "Djot",
+  org: "Org mode",
+  textile: "Textile",
+  html: "strict HTML",
+  dbk: "strict DocBook"
+};
 
 convertBtn.addEventListener("click", async () => {
   const from = fromSelect.value;

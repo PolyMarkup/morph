@@ -1,5 +1,12 @@
 pub mod asciidoc;
+pub mod djot;
+pub mod docbook;
+pub mod html;
 pub mod latex;
+mod lightweight;
 pub mod markdown;
+pub mod org;
 pub mod rst;
+mod strict_xml;
+pub mod textile;
 pub mod typst;

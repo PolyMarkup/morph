@@ -1,0 +1,14 @@
+This is ~inline code~ in a paragraph.
+
+#+begin_src java
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello");
+    }
+}
+#+end_src
+
+#+begin_src python
+def greet(name):
+    print(f"Hello, {name}")
+#+end_src

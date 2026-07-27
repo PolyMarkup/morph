@@ -1,0 +1,4 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<para><link xlink:href="https://example.com">Click here</link> to visit the site.</para>
+<para>Visit <link xlink:href="https://example.org">Another link</link> for more.</para>
+</article>

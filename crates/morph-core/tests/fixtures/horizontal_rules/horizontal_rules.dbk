@@ -1,0 +1,5 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<para>Text above the rule.</para>
+<para role="morph-horizontal-rule"/>
+<para>Text below the rule.</para>
+</article>

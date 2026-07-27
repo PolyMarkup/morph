@@ -1,0 +1,4 @@
+| _. Name | _. Role | _. City |
+| Alice | Developer | London |
+| Bob | Designer | Paris |
+| Carol | Manager | Berlin |

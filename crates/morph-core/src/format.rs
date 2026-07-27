@@ -8,6 +8,11 @@ pub enum Format {
     Rst,
     Typst,
     Latex,
+    Djot,
+    Org,
+    Textile,
+    Html,
+    DocBook,
 }
 
 impl Format {
@@ -17,6 +22,11 @@ impl Format {
         Format::Rst,
         Format::Typst,
         Format::Latex,
+        Format::Djot,
+        Format::Org,
+        Format::Textile,
+        Format::Html,
+        Format::DocBook,
     ];
 
     /// Short identifier used in the CLI and API (e.g. "md", "adoc").
@@ -27,6 +37,11 @@ impl Format {
             Format::Rst => "rst",
             Format::Typst => "typ",
             Format::Latex => "tex",
+            Format::Djot => "dj",
+            Format::Org => "org",
+            Format::Textile => "textile",
+            Format::Html => "html",
+            Format::DocBook => "dbk",
         }
     }
 
@@ -38,6 +53,11 @@ impl Format {
             Format::Rst => "reStructuredText",
             Format::Typst => "Typst",
             Format::Latex => "LaTeX",
+            Format::Djot => "Djot",
+            Format::Org => "Org mode",
+            Format::Textile => "Textile",
+            Format::Html => "HTML",
+            Format::DocBook => "DocBook",
         }
     }
 
@@ -52,6 +72,11 @@ impl Format {
             "rst" | "restructuredtext" => Some(Format::Rst),
             "typ" | "typst" => Some(Format::Typst),
             "tex" | "latex" => Some(Format::Latex),
+            "dj" | "djot" => Some(Format::Djot),
+            "org" | "orgmode" | "org-mode" => Some(Format::Org),
+            "textile" => Some(Format::Textile),
+            "html" | "htm" => Some(Format::Html),
+            "dbk" | "docbook" => Some(Format::DocBook),
             _ => None,
         }
     }

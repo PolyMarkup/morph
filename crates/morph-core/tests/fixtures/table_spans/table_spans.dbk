@@ -1,0 +1,15 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<informaltable><tgroup cols="3">
+<colspec colname="c1"/>
+<colspec colname="c2"/>
+<colspec colname="c3"/>
+<thead>
+<row><entry>A</entry><entry>B</entry><entry>C</entry></row>
+</thead>
+<tbody>
+<row><entry namest="c1" nameend="c2">Wide</entry><entry>D</entry></row>
+<row><entry>E</entry><entry morerows="1">Tall</entry><entry>F</entry></row>
+<row><entry>G</entry><entry>H</entry></row>
+</tbody>
+</tgroup></informaltable>
+</article>

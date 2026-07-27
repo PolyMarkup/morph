@@ -179,6 +179,11 @@ Formats:
   rst               reStructuredText
   typ, typst        Typst
   tex, latex        LaTeX
+  dj, djot          Djot
+  org, org-mode     Org mode
+  textile           Textile
+  html, htm         strict HTML
+  dbk, docbook      strict DocBook
 
 Options:
   -f, --from <fmt>  Input format (overrides extension detection)
