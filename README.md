@@ -37,6 +37,38 @@ printf '# Hello\n' | morph --from markdown --to asciidoc
 
 Run `morph --help` for all options and format names.
 
+## How does Morph compare to Pandoc?
+
+[Pandoc](https://pandoc.org/) is the better choice when you need a broad
+document-processing toolkit: it supports many more formats, citations,
+templates, filters, and PDF generation.
+
+Morph is a smaller, focused converter for Markdown, AsciiDoc,
+reStructuredText, Typst, and LaTeX. Its priority is **lossless conversion for
+supported constructs**. Morph's shared AST explicitly represents structure
+such as nested blocks, inline markup, and table row and column spans, and its
+test suite checks conversions between every supported format as well as
+round trips.
+
+"Lossless" here means semantic rather than byte-for-byte preservation: when a
+construct is represented by Morph and both formats can express it, converting
+from A to B and back preserves the equivalent document structure. The exact
+source spelling, formatting, or whitespace may be normalized. If a target
+format cannot represent a feature—for example, row spans in a plain Markdown
+table—Morph degrades it predictably instead of claiming that no information
+was lost.
+
+Pandoc also uses an intermediate AST, but its
+[user guide](https://pandoc.org/MANUAL.html#description) notes that its
+representation is less expressive than some input formats and that those
+conversions can therefore be lossy. Morph takes a different trade-off: fewer
+formats and features, with a smaller preservation surface that is tested
+explicitly.
+
+In short: choose Pandoc for breadth and publishing workflows; choose Morph for
+a lightweight binary and preservation-focused conversion among its supported
+markup formats.
+
 ## Build from source
 
 Morph requires the Rust toolchain:
