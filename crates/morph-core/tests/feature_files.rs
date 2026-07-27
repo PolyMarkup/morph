@@ -1,7 +1,7 @@
 use morph::format::Format;
 use std::path::Path;
 
-const FEATURE_DIR: &str = "/Users/erikpragt/UserFiles/projects/github/markdown-to-asciidoc/src/test/resources/nl/jworks/markdown_to_asciidoc";
+const FEATURE_DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/features");
 
 #[derive(Debug)]
 struct Scenario {
