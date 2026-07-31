@@ -88,6 +88,20 @@
                     <span class="visually-hidden">Input format</span>
                     <select id="source-format" aria-label="Input format"></select>
                   </label>
+                  <button
+                    class="tool-button"
+                    id="source-preview-button"
+                    type="button"
+                    aria-pressed="false"
+                    aria-describedby="source-preview-help"
+                    aria-controls="source-stage"
+                    disabled
+                  >
+                    Preview
+                  </button>
+                  <span class="visually-hidden" id="source-preview-help">
+                    Preview with the Markdown browser renderer
+                  </span>
                   <button class="tool-button" id="open-file-button" type="button">
                     Open file
                   </button>
@@ -99,7 +113,20 @@
                   >
                 </div>
               </header>
-              <div class="editor-frame" id="source-editor" aria-label="Source document editor"></div>
+              <div class="source-stage" id="source-stage">
+                <div class="editor-frame" id="source-editor" aria-label="Source document editor"></div>
+                <div class="preview-pane" id="source-preview-pane" hidden>
+                  <iframe
+                    id="source-preview-frame"
+                    title="Rendered source preview"
+                    sandbox=""
+                    referrerpolicy="no-referrer"
+                  ></iframe>
+                  <div class="preview-loading" id="source-preview-loading" role="status" hidden>
+                    Rendering preview…
+                  </div>
+                </div>
+              </div>
               <footer class="panel-footer">
                 <span>Autosaved locally</span>
                 <span>Max 256 KiB</span>

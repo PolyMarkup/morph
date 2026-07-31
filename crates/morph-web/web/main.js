@@ -31,6 +31,11 @@ const elements = {
   outputFormatNote: $("#output-format-note"),
   sourcePanel: $(".source-panel"),
   sourceEditor: $("#source-editor"),
+  sourcePreviewButton: $("#source-preview-button"),
+  sourcePreviewHelp: $("#source-preview-help"),
+  sourcePreviewPane: $("#source-preview-pane"),
+  sourcePreviewFrame: $("#source-preview-frame"),
+  sourcePreviewLoading: $("#source-preview-loading"),
   outputEditor: $("#output-editor"),
   formatRail: $("#format-rail"),
   emptyOutput: $("#empty-output"),
@@ -74,6 +79,9 @@ let saveTimer;
 let toastTimer;
 let previewMode = false;
 let previewRequest = 0;
+let sourcePreviewMode = false;
+let sourcePreviewRequest = 0;
+let sourcePreviewTimer;
 
 applyTheme();
 
@@ -328,6 +336,92 @@ function renderInspectorState(result, format = getFormat(state.targetFormat)) {
 function renderSourceStats() {
   const stats = textStats(sourceEditor?.getDoc?.() ?? state.input);
   elements.sourceStats.textContent = `${stats.lines} lines · ${formatCompactNumber(stats.characters)} characters`;
+  renderSourcePreviewControl();
+  if (sourcePreviewMode) scheduleSourcePreview();
+}
+
+function renderSourcePreviewControl() {
+  const hasSource = Boolean(sourceEditor.getDoc().trim());
+  const preview = previewAvailability(state.inputFormat);
+  elements.sourcePreviewButton.disabled = !hasSource || !preview.supported;
+
+  const description = !hasSource
+    ? "Enter a document before opening its preview"
+    : sourcePreviewMode
+      ? "Return to the source editor"
+      : preview.description;
+  elements.sourcePreviewButton.title = description;
+  elements.sourcePreviewHelp.textContent = description;
+
+  if (sourcePreviewMode && (!hasSource || !preview.supported)) {
+    setSourcePreviewMode(false);
+  }
+}
+
+function setSourcePreviewMode(enabled) {
+  const source = sourceEditor.getDoc();
+  const preview = previewAvailability(state.inputFormat);
+  sourcePreviewMode = Boolean(enabled && source.trim() && preview.supported);
+  sourcePreviewRequest += 1;
+  window.clearTimeout(sourcePreviewTimer);
+
+  elements.sourcePreviewPane.hidden = !sourcePreviewMode;
+  elements.sourceEditor.setAttribute("aria-hidden", String(sourcePreviewMode));
+  elements.sourceEditor.inert = sourcePreviewMode;
+  elements.sourcePreviewButton.setAttribute("aria-pressed", String(sourcePreviewMode));
+  elements.sourcePreviewButton.textContent = sourcePreviewMode ? "Source" : "Preview";
+
+  const description = sourcePreviewMode
+    ? "Return to the source editor"
+    : source.trim()
+      ? preview.description
+      : "Enter a document before opening its preview";
+  elements.sourcePreviewButton.title = description;
+  elements.sourcePreviewHelp.textContent = description;
+
+  if (sourcePreviewMode) {
+    renderActiveSourcePreview();
+  } else {
+    elements.sourcePreviewLoading.hidden = true;
+    elements.sourcePreviewFrame.removeAttribute("srcdoc");
+  }
+}
+
+function scheduleSourcePreview() {
+  window.clearTimeout(sourcePreviewTimer);
+  sourcePreviewRequest += 1;
+  sourcePreviewTimer = window.setTimeout(renderActiveSourcePreview, 180);
+}
+
+async function renderActiveSourcePreview() {
+  const source = sourceEditor.getDoc();
+  if (!sourcePreviewMode || !source.trim()) return;
+
+  const request = ++sourcePreviewRequest;
+  const format = getFormat(state.inputFormat);
+  elements.sourcePreviewLoading.hidden = false;
+  elements.sourcePreviewFrame.classList.add("is-loading");
+
+  try {
+    const markup = await renderPreview(state.inputFormat, source);
+    if (request !== sourcePreviewRequest || !sourcePreviewMode) return;
+
+    const parsed = new DOMParser().parseFromString(markup, "text/html");
+    elements.sourcePreviewFrame.srcdoc = buildPreviewDocument(
+      parsed.body.innerHTML,
+      `${format.name} source preview`,
+      resolvedTheme(),
+    );
+  } catch (error) {
+    if (request !== sourcePreviewRequest || !sourcePreviewMode) return;
+    const message = document.createElement("p");
+    message.textContent = error?.message ?? "The browser renderer could not render this source.";
+    elements.sourcePreviewFrame.srcdoc = buildPreviewDocument(
+      `<h1>Preview unavailable</h1>${message.outerHTML}`,
+      `${format.name} source preview error`,
+      resolvedTheme(),
+    );
+  }
 }
 
 function getFormat(id) {
@@ -556,6 +650,7 @@ function applyTheme() {
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute("content", theme === "dark" ? "#171714" : "#f0eadf");
   if (previewMode) renderActivePreview();
+  if (sourcePreviewMode) renderActiveSourcePreview();
 }
 
 function toggleTheme() {
@@ -566,6 +661,7 @@ function toggleTheme() {
 
 function resetLocalData() {
   window.clearTimeout(saveTimer);
+  setSourcePreviewMode(false);
   localStorage.removeItem("morph.web.v1");
   state = defaultState();
   results = new Map();
@@ -593,12 +689,16 @@ elements.sourceFormat.addEventListener("change", () => {
   sourceEditor.setFormat(state.inputFormat);
   state.inputFilename = outputFilename(state.inputFilename, state.inputFormat);
   invalidateResults(`Input changed to ${getFormat(state.inputFormat).name}`);
+  renderSourceStats();
   scheduleSave();
 });
 elements.openFileButton.addEventListener("click", () => elements.fileInput.click());
 elements.fileInput.addEventListener("change", () => openFile(elements.fileInput.files[0]));
 elements.sampleButton.addEventListener("click", loadSpecimen);
 elements.clearButton.addEventListener("click", clearSource);
+elements.sourcePreviewButton.addEventListener("click", () =>
+  setSourcePreviewMode(!sourcePreviewMode),
+);
 elements.wrapButton.addEventListener("click", () => {
   state.wrap = !state.wrap;
   outputEditor.setWrap(state.wrap);
@@ -623,6 +723,10 @@ elements.clearLocalData.addEventListener("click", resetLocalData);
 elements.previewFrame.addEventListener("load", () => {
   elements.previewLoading.hidden = true;
   elements.previewFrame.classList.remove("is-loading");
+});
+elements.sourcePreviewFrame.addEventListener("load", () => {
+  elements.sourcePreviewLoading.hidden = true;
+  elements.sourcePreviewFrame.classList.remove("is-loading");
 });
 
 for (const button of $$("[data-pane-button]")) {
