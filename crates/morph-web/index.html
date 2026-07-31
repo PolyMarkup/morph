@@ -3,35 +3,35 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f0eadf">
+    <meta name="theme-color" content="#f5f6f7">
     <meta
       name="description"
       content="Convert Markdown, AsciiDoc, reStructuredText, Typst, LaTeX, Djot, Org mode, Textile, HTML, and DocBook with Morph."
     >
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Morph — one document, ten dialects">
-    <meta property="og:url" content="https://morph-web.erik-pragt.workers.dev/">
+    <meta property="og:title" content="Morph document converter">
     <meta
       property="og:description"
-      content="A preservation-focused markup conversion workbench."
+      content="A preservation-focused document conversion application."
     >
+    <meta property="og:url" content="https://morph-web.erik-pragt.workers.dev/">
     <link rel="canonical" href="https://morph-web.erik-pragt.workers.dev/">
     <link rel="icon" href="/morph-mark.svg" type="image/svg+xml">
     <link rel="manifest" href="/site.webmanifest">
-    <title>Morph — preservation-focused markup conversion</title>
+    <title>Morph — document converter</title>
   </head>
   <body>
     <a class="skip-link" href="#workbench">Skip to converter</a>
 
     <header class="site-header">
       <a class="brand" href="/" aria-label="Morph home">
-        <img src="/morph-mark.svg" alt="" width="36" height="36">
+        <img src="/morph-mark.svg" alt="" width="34" height="34">
         <span>morph</span>
         <sup>β</sup>
       </a>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#why-morph">Why Morph</a>
-        <a href="#install">Install</a>
+      <nav class="site-nav" aria-label="Application links">
+        <span class="nav-status"><span></span> Public beta</span>
+        <a href="https://github.com/PolyMarkup/morph/releases/latest">Download</a>
         <a href="https://github.com/PolyMarkup/morph">GitHub ↗</a>
         <button class="icon-button theme-toggle" id="theme-toggle" type="button">
           <span aria-hidden="true">◐</span>
@@ -40,41 +40,15 @@
       </nav>
     </header>
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> Open source · Apache 2.0</p>
-          <h1 id="hero-title">Markup conversion you can inspect.</h1>
-          <p class="hero-lede">
-            Convert between ten text formats and verify each result against
-            Morph's shared document model.
-          </p>
-        </div>
-        <div class="hero-proof" aria-label="Morph principles">
-          <div>
-            <strong>10</strong>
-            <span>input and output formats</span>
-          </div>
-          <div>
-            <strong>0</strong>
-            <span>core dependencies</span>
-          </div>
-          <div>
-            <strong>AST</strong>
-            <span>round-trip verification</span>
-          </div>
-        </div>
-      </section>
-
+    <main class="app-main">
       <section class="workbench-section" id="workbench" aria-labelledby="workbench-title">
-        <div class="section-heading">
+        <div class="app-heading">
           <div>
-            <p class="folio">Workbench</p>
-            <h2 id="workbench-title">Convert a document</h2>
+            <h1 id="workbench-title">Convert a document</h1>
+            <p>Ten markup formats · semantic round-trip verification</p>
           </div>
-          <p>
-            Your draft is sent only when you convert. It is processed
-            transiently and never stored by Morph.
+          <p class="privacy-note">
+            Sent only when you convert · processed transiently · never stored
           </p>
         </div>
 
@@ -82,7 +56,7 @@
           <div class="workbench-mast">
             <div class="status-line" aria-live="polite">
               <span class="status-lamp" id="status-lamp"></span>
-              <span id="status-text">Ready for copy</span>
+              <span id="status-text">Ready for input</span>
             </div>
             <div class="mobile-pane-switch" role="tablist" aria-label="Editor pane">
               <button type="button" role="tab" data-pane-button="source" aria-selected="true">
@@ -94,7 +68,8 @@
             </div>
             <div class="mast-actions">
               <button class="text-button" id="sample-button" type="button">Load specimen</button>
-              <button class="text-button" id="clear-button" type="button">Clear</button>
+              <button class="text-button" id="clear-button" type="button">Clear editor</button>
+              <button class="text-button" id="clear-local-data" type="button">Reset local data</button>
             </div>
           </div>
 
@@ -104,7 +79,7 @@
                 <div class="panel-identity">
                   <span class="panel-number">A</span>
                   <div>
-                    <h3 id="source-title">Source</h3>
+                    <h2 id="source-title">Source</h2>
                     <span id="source-stats">0 lines · 0 characters</span>
                   </div>
                 </div>
@@ -141,7 +116,7 @@
                 <div class="panel-identity">
                   <span class="panel-number">B</span>
                   <div>
-                    <h3 id="output-title">Output</h3>
+                    <h2 id="output-title">Output</h2>
                     <span id="output-stats">Awaiting conversion</span>
                   </div>
                 </div>
@@ -163,7 +138,7 @@
                 <div class="empty-output" id="empty-output">
                   <span class="empty-glyph" aria-hidden="true">output</span>
                   <strong>No output yet</strong>
-                  <p>Run a conversion to generate all ten target formats.</p>
+                  <p>Convert the source to generate all ten target formats.</p>
                 </div>
               </div>
 
@@ -176,13 +151,13 @@
                 >
                   <span>
                     <span class="status-badge idle" id="preservation-badge">Not checked</span>
-                    <strong id="inspector-title">Preservation proof</strong>
+                    <strong id="inspector-title">Preservation check</strong>
                   </span>
                   <span aria-hidden="true">⌄</span>
                 </button>
                 <div class="inspector-body" id="inspector-body">
                   <p id="inspector-summary">
-                    Morph will emit this format, parse it again, and compare both document trees.
+                    Morph will parse the generated output and compare both document trees.
                   </p>
                   <ul class="change-list" id="change-list"></ul>
                 </div>
@@ -205,8 +180,8 @@
 
           <div class="convert-dock">
             <div>
-              <span class="dock-kicker">Single request</span>
-              <span>Parse once, then emit every supported format</span>
+              <span class="dock-kicker">All targets</span>
+              <span>Parse the source once and generate every supported format</span>
             </div>
             <button class="convert-button" id="convert-button" type="button">
               <span>Convert all ten</span>
@@ -215,103 +190,9 @@
           </div>
         </div>
       </section>
-
-      <section class="preservation-section" id="why-morph" aria-labelledby="preservation-title">
-        <div class="section-heading">
-          <div>
-            <p class="folio">Preservation model</p>
-            <h2 id="preservation-title">Preservation is checked, not assumed</h2>
-          </div>
-          <p>
-            Morph targets a smaller surface than Pandoc so it can test the
-            structure it promises to preserve.
-          </p>
-        </div>
-
-        <div class="proof-diagram">
-          <article>
-            <span class="proof-index">01</span>
-            <p class="proof-label">Read</p>
-            <h3>Your syntax</h3>
-            <p>Headings, nested blocks, inline meaning, alignments, and spans become explicit.</p>
-          </article>
-          <div class="proof-connector"><span>→</span></div>
-          <article class="ast-card">
-            <span class="proof-index">02</span>
-            <p class="proof-label">Remember</p>
-            <h3>Shared AST</h3>
-            <div class="ast-tree" aria-hidden="true">
-              <span>Document</span>
-              <span>├─ Heading</span>
-              <span>├─ Paragraph</span>
-              <span>└─ Table [2×3]</span>
-            </div>
-          </article>
-          <div class="proof-connector"><span>→</span></div>
-          <article>
-            <span class="proof-index">03</span>
-            <p class="proof-label">Prove</p>
-            <h3>Target syntax</h3>
-            <p>The result is parsed again. The workbench tells you when its structure differs.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="formats-section" aria-labelledby="formats-title">
-        <div class="section-heading">
-          <div>
-            <p class="folio">Format support</p>
-            <h2 id="formats-title">Ten formats, both ways</h2>
-          </div>
-          <p>Strict where ambiguity would lose meaning; predictable where a target has fewer tools.</p>
-        </div>
-        <div class="format-specimens" id="format-specimens" aria-label="Supported formats"></div>
-      </section>
-
-      <section class="install-section" id="install" aria-labelledby="install-title">
-        <div class="install-copy">
-          <p class="folio">Command line</p>
-          <h2 id="install-title">Use the same engine locally</h2>
-          <p>
-            Install the same dependency-free converter locally for scripts,
-            editors, CI, and documents that should never leave your machine.
-          </p>
-          <div class="install-links">
-            <a class="primary-link" href="https://github.com/PolyMarkup/morph/releases/latest">
-              Download binaries <span aria-hidden="true">↗</span>
-            </a>
-            <a href="https://github.com/PolyMarkup/morph">Read the source ↗</a>
-          </div>
-        </div>
-        <div class="terminal-card">
-          <div class="terminal-top">
-            <div class="install-tabs" role="tablist" aria-label="Install command platform">
-              <button type="button" role="tab" data-install-tab="unix" aria-selected="true">
-                macOS / Linux
-              </button>
-              <button type="button" role="tab" data-install-tab="windows" aria-selected="false">
-                Windows
-              </button>
-            </div>
-            <button class="terminal-copy" id="copy-install-button" type="button">Copy</button>
-          </div>
-          <pre><code id="install-command"></code></pre>
-          <p>No package manager required. SHA-256 checksums included.</p>
-        </div>
-      </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="brand footer-brand">
-        <img src="/morph-mark.svg" alt="" width="30" height="30">
-        <span>morph</span>
-      </div>
-      <p>Built by <a href="https://github.com/PolyMarkup">PolyMarkup</a>. Apache 2.0.</p>
-      <button class="text-button" id="clear-local-data" type="button">Clear local data</button>
-    </footer>
-
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
     <script type="module" src="/web/main.js"></script>
   </body>
 </html>

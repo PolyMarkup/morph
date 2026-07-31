@@ -28,7 +28,6 @@ const elements = {
   sourceEditor: $("#source-editor"),
   outputEditor: $("#output-editor"),
   formatRail: $("#format-rail"),
-  formatSpecimens: $("#format-specimens"),
   emptyOutput: $("#empty-output"),
   convertButton: $("#convert-button"),
   openFileButton: $("#open-file-button"),
@@ -55,15 +54,6 @@ const elements = {
   themeToggle: $("#theme-toggle"),
   clearLocalData: $("#clear-local-data"),
   toast: $("#toast"),
-  installCommand: $("#install-command"),
-  copyInstallButton: $("#copy-install-button"),
-};
-
-const installCommands = {
-  unix:
-    "curl --proto '=https' --tlsv1.2 -LsSf \\\n  https://github.com/PolyMarkup/morph/releases/latest/download/morph-installer.sh | sh",
-  windows:
-    'powershell -ExecutionPolicy Bypass -c "irm https://github.com/PolyMarkup/morph/releases/latest/download/morph-installer.ps1 | iex"',
 };
 
 let state = loadState(localStorage);
@@ -72,7 +62,6 @@ let results = new Map();
 let converting = false;
 let saveTimer;
 let toastTimer;
-let installPlatform = navigator.userAgent.includes("Windows") ? "windows" : "unix";
 
 applyTheme();
 
@@ -102,15 +91,15 @@ initialize();
 async function initialize() {
   renderSourceStats();
   renderInspectorState();
-  renderInstallCommand();
   setMobilePane(state.mobilePane);
   elements.wrapButton.setAttribute("aria-pressed", String(state.wrap));
   await loadFormats();
   renderFormatRail();
-  renderFormatSpecimens();
   populateSourceFormats();
   selectTarget(state.targetFormat, false);
-  sourceEditor.focus();
+  if (window.matchMedia("(min-width: 761px) and (pointer: fine)").matches) {
+    sourceEditor.focus();
+  }
 }
 
 async function loadFormats() {
@@ -179,24 +168,6 @@ function handleFormatTabKeydown(event) {
   if (event.key === "End") next = formats.length - 1;
   selectTarget(formats[next].id);
   elements.formatRail.querySelector(`[data-format="${formats[next].id}"]`)?.focus();
-}
-
-function renderFormatSpecimens() {
-  elements.formatSpecimens.replaceChildren(
-    ...formats.map((format, index) => {
-      const article = document.createElement("article");
-      article.className = "format-specimen";
-      const mark = document.createElement("span");
-      mark.className = "syntax-mark";
-      mark.textContent = format.mark ?? String(index + 1).padStart(2, "0");
-      const heading = document.createElement("h3");
-      heading.textContent = format.name;
-      const note = document.createElement("p");
-      note.textContent = format.note ?? "Read and write";
-      article.append(mark, heading, note);
-      return article;
-    }),
-  );
 }
 
 function selectTarget(formatId, save = true) {
@@ -529,13 +500,6 @@ function resetLocalData() {
   showToast("Local draft and preferences cleared.");
 }
 
-function renderInstallCommand() {
-  elements.installCommand.textContent = installCommands[installPlatform];
-  for (const button of $$("[data-install-tab]")) {
-    button.setAttribute("aria-selected", String(button.dataset.installTab === installPlatform));
-  }
-}
-
 elements.convertButton.addEventListener("click", convertAll);
 elements.sourceFormat.addEventListener("change", () => {
   state.inputFormat = elements.sourceFormat.value;
@@ -572,17 +536,6 @@ elements.clearLocalData.addEventListener("click", resetLocalData);
 for (const button of $$("[data-pane-button]")) {
   button.addEventListener("click", () => setMobilePane(button.dataset.paneButton));
 }
-
-for (const button of $$("[data-install-tab]")) {
-  button.addEventListener("click", () => {
-    installPlatform = button.dataset.installTab;
-    renderInstallCommand();
-  });
-}
-
-elements.copyInstallButton.addEventListener("click", () =>
-  copyText(installCommands[installPlatform], "Install command copied."),
-);
 
 elements.sourcePanel.addEventListener("dragover", (event) => {
   event.preventDefault();
