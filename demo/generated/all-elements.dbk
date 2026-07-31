@@ -1,0 +1,82 @@
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.2">
+<bridgehead renderas="sect1">Morph: one document, ten forms</bridgehead>
+<para>This strict HTML specimen exercises <emphasis role="strong">bold</emphasis>, <emphasis>italic</emphasis>, <phrase role="bold-italic">bold italic</phrase>, <phrase role="strikethrough">strikethrough</phrase>, superscript E=mc<superscript>2</superscript>, subscript H<subscript>2</subscript>O, <code>inline_code()</code>, and a <link xlink:href="https://github.com/PolyMarkup/morph" xlink:title="Morph on GitHub">titled link</link>.</para>
+<para>A soft line break follows this line<phrase role="morph-soft-break"/>and the paragraph continues here.<phrase role="morph-hard-break"/>A hard line break starts this sentence on a new visual line.</para>
+<para>A linked image is represented inline: <link xlink:href="https://github.com/PolyMarkup/morph"><inlinemediaobject><imageobject><imagedata fileref="../assets/morph-mark.svg" xlink:title="The Morph mark"/></imageobject><textobject><phrase>Morph mark</phrase></textobject></inlinemediaobject></link>. A tagged raw inline follows: <phrase role="morph-raw" remap="handlebars">{{ portable_value }}</phrase>.</para>
+<bridgehead renderas="sect2">Blocks and structure</bridgehead>
+<programlisting language="rust">fn main() {
+    println!("one AST, many syntaxes");
+}</programlisting>
+<blockquote>
+<bridgehead renderas="sect3">A quotation can contain structure</bridgehead>
+<para>Blocks remain blocks, even when they are nested.</para>
+<itemizedlist>
+<listitem>
+<para>Quoted list item one</para>
+</listitem>
+<listitem>
+<para>Quoted list item two</para>
+</listitem>
+</itemizedlist>
+</blockquote>
+<bridgehead renderas="sect2">Lists</bridgehead>
+<itemizedlist>
+<listitem>
+<para>An unordered item with <emphasis role="strong">markup</emphasis></para>
+</listitem>
+<listitem>
+<para>An item containing a nested ordered list</para>
+<orderedlist startingnumber="3">
+<listitem>
+<para>The numbering starts at three</para>
+</listitem>
+<listitem>
+<para>The next nested item</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+<orderedlist startingnumber="4">
+<listitem>
+<para>A top-level ordered item</para>
+</listitem>
+<listitem>
+<para>Another ordered item</para>
+</listitem>
+</orderedlist>
+<bridgehead renderas="sect2">Terms and definitions</bridgehead>
+<variablelist>
+<varlistentry><term><emphasis role="strong">Morph</emphasis></term>
+<listitem>
+<para>A dependency-free markup converter.</para>
+</listitem>
+<listitem>
+<para>A shared document model with multiple emitters.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Lossless</term>
+<listitem>
+<para>Equivalent structure survives a round trip when both formats can express it.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<bridgehead renderas="sect2">Alignment and spans</bridgehead>
+<informaltable><tgroup cols="4">
+<colspec colname="c1" align="left"/>
+<colspec colname="c2" align="center"/>
+<colspec colname="c3" align="right"/>
+<colspec colname="c4"/>
+<thead>
+<row><entry>Feature</entry><entry>Status</entry><entry>Count</entry><entry>Notes</entry></row>
+</thead>
+<tbody>
+<row><entry morerows="1">Tables</entry><entry>Stable</entry><entry>10</entry><entry>All formats emit a table</entry></row>
+<row><entry namest="c2" nameend="c3">This cell spans two columns</entry><entry>Row span at left</entry></row>
+</tbody>
+</tgroup></informaltable>
+<para role="morph-horizontal-rule"/>
+<bridgehead renderas="sect2">Native passthrough</bridgehead>
+<programlisting role="morph-raw" remap="custom">&lt;native key="value"&gt;
+  preserved verbatim
+&lt;/native&gt;</programlisting>
+</article>

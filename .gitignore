@@ -2,4 +2,6 @@
 .DS_Store
 .idea/
 .wrangler/
+crates/morph-web/dist/
+crates/morph-web/node_modules/
 .claude/settings.local.json

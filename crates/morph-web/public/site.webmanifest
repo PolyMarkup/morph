@@ -1,0 +1,16 @@
+{
+  "name": "Morph markup workbench",
+  "short_name": "Morph",
+  "description": "Preservation-focused conversion across ten markup formats.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0eadf",
+  "theme_color": "#f0eadf",
+  "icons": [
+    {
+      "src": "/morph-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

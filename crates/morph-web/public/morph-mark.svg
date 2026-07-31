@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title description">
+  <title id="title">Morph mark</title>
+  <desc id="description">Radiating square and round strokes surrounding the letter M.</desc>
+  <rect width="160" height="160" rx="32" fill="#171713"/>
+  <g fill="#ff5a36">
+    <rect x="76" y="12" width="8" height="26" rx="1"/>
+    <rect x="76" y="122" width="8" height="26" rx="4"/>
+    <rect x="122" y="76" width="26" height="8" rx="4"/>
+    <rect x="12" y="76" width="26" height="8" rx="1"/>
+  </g>
+  <g fill="#f4e9d8" transform="rotate(45 80 80)">
+    <rect x="76" y="12" width="8" height="26" rx="1"/>
+    <rect x="76" y="122" width="8" height="26" rx="4"/>
+    <rect x="122" y="76" width="26" height="8" rx="4"/>
+    <rect x="12" y="76" width="26" height="8" rx="1"/>
+  </g>
+  <path d="M53 104V55h11l16 24 16-24h11v49H95V75L80 97 65 75v29z" fill="#f4e9d8"/>
+</svg>

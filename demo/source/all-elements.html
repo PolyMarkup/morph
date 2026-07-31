@@ -1,0 +1,53 @@
+<h1>Morph: one document, ten forms</h1>
+<p>This strict HTML specimen exercises <strong>bold</strong>, <em>italic</em>, <strong><em>bold italic</em></strong>, <del>strikethrough</del>, superscript E=mc<sup>2</sup>, subscript H<sub>2</sub>O, <code>inline_code()</code>, and a <a href="https://github.com/PolyMarkup/morph" title="Morph on GitHub">titled link</a>.</p>
+<p>A soft line break follows this line
+and the paragraph continues here.<br>A hard line break starts this sentence on a new visual line.</p>
+<p>A linked image is represented inline: <a href="https://github.com/PolyMarkup/morph"><img src="../assets/morph-mark.svg" alt="Morph mark" title="The Morph mark"></a>. A tagged raw inline follows: <span data-morph-raw-format="handlebars">{{ portable_value }}</span>.</p>
+<h2>Blocks and structure</h2>
+<pre><code class="language-rust">fn main() {
+    println!("one AST, many syntaxes");
+}</code></pre>
+<blockquote>
+<h3>A quotation can contain structure</h3>
+<p>Blocks remain blocks, even when they are nested.</p>
+<ul>
+<li><p>Quoted list item one</p></li>
+<li><p>Quoted list item two</p></li>
+</ul>
+</blockquote>
+<h2>Lists</h2>
+<ul>
+<li><p>An unordered item with <strong>markup</strong></p></li>
+<li>
+<p>An item containing a nested ordered list</p>
+<ol start="3">
+<li><p>The numbering starts at three</p></li>
+<li><p>The next nested item</p></li>
+</ol>
+</li>
+</ul>
+<ol start="4">
+<li><p>A top-level ordered item</p></li>
+<li><p>Another ordered item</p></li>
+</ol>
+<h2>Terms and definitions</h2>
+<dl>
+<dt><strong>Morph</strong></dt>
+<dd><p>A dependency-free markup converter.</p></dd>
+<dd><p>A shared document model with multiple emitters.</p></dd>
+<dt>Lossless</dt>
+<dd><p>Equivalent structure survives a round trip when both formats can express it.</p></dd>
+</dl>
+<h2>Alignment and spans</h2>
+<table>
+<thead><tr><th align="left">Feature</th><th align="center">Status</th><th align="right">Count</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td rowspan="2">Tables</td><td>Stable</td><td>10</td><td>All formats emit a table</td></tr>
+<tr><td colspan="2">This cell spans two columns</td><td>Row span at left</td></tr>
+</tbody>
+</table>
+<hr>
+<h2>Native passthrough</h2>
+<pre data-morph-raw-format="custom">&lt;native key="value"&gt;
+  preserved verbatim
+&lt;/native&gt;</pre>

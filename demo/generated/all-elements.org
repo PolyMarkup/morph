@@ -1,0 +1,58 @@
+* Morph: one document, ten forms
+
+This strict HTML specimen exercises *bold*, /italic/, */bold italic/*, +strikethrough+, superscript E\=mc^{2}, subscript H_{2}O, ~inline_code()~, and a [[https://github.com/PolyMarkup/morph][titled link]].
+
+A soft line break follows this line
+and the paragraph continues here.\\
+A hard line break starts this sentence on a new visual line.
+
+A linked image is represented inline: [[https://github.com/PolyMarkup/morph][[[../assets/morph-mark.svg][Morph mark]]]]. A tagged raw inline follows: {{ portable_value }}.
+
+** Blocks and structure
+
+#+begin_src rust
+fn main() {
+    println!("one AST, many syntaxes");
+}
+#+end_src
+
+#+begin_quote
+*** A quotation can contain structure
+
+Blocks remain blocks, even when they are nested.
+
+- Quoted list item one
+- Quoted list item two
+#+end_quote
+
+** Lists
+
+- An unordered item with *markup*
+- An item containing a nested ordered list
+  3. The numbering starts at three
+  4. The next nested item
+
+4. A top-level ordered item
+5. Another ordered item
+
+** Terms and definitions
+
+- *Morph* :: A dependency-free markup converter.
+- Lossless :: Equivalent structure survives a round trip when both formats can express it.
+
+** Alignment and spans
+
+| Feature | Status | Count | Notes |
+| :--- | :---: | ---: | --- |
+| Tables | Stable | 10 | All formats emit a table |
+| This cell spans two columns | Row span at left |
+
+-----
+
+** Native passthrough
+
+#+begin_export custom
+<native key="value">
+  preserved verbatim
+</native>
+#+end_export

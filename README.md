@@ -37,6 +37,25 @@ printf '# Hello\n' | morph --from markdown --to asciidoc
 
 Run `morph --help` for all options and format names.
 
+## Web workbench
+
+The [public Morph workbench](https://morph-web.erik-pragt.workers.dev) converts
+one source document to all ten formats in a single request, then parses every
+result again to show whether its Morph AST was preserved. It also supports
+local draft autosave, file drop, syntax-aware editors, copy/download actions,
+and light and dark themes.
+
+The frontend uses npm packages, while Morph's Rust core and CLI remain
+dependency-free. Development and deployment instructions live in
+[`crates/morph-web`](crates/morph-web/).
+
+## Static conversion demo
+
+The dependency-free [`demo`](demo/) project contains one strict HTML specimen
+covering every element in Morph's document model and its generated
+representation in all ten supported formats. Run `./demo/generate.sh` to
+regenerate the files or `./demo/generate.sh --check` to verify them.
+
 ## Supported formats
 
 | Format | Names and extensions | Input | Output |

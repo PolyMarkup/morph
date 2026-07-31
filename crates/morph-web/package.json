@@ -1,0 +1,26 @@
+{
+  "name": "morph-web-frontend",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "build": "vite build",
+    "test": "vitest run",
+    "validate": "npm run test && npm run build"
+  },
+  "dependencies": {
+    "@codemirror/lang-html": "^6.4.11",
+    "@codemirror/lang-markdown": "^6.5.1",
+    "@codemirror/lang-xml": "^6.1.0",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/legacy-modes": "^6.5.3",
+    "@codemirror/state": "^6.7.1",
+    "@codemirror/view": "^6.43.7",
+    "codemirror": "^6.0.2"
+  },
+  "devDependencies": {
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10"
+  }
+}

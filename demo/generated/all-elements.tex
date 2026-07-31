@@ -1,0 +1,68 @@
+\section{Morph: one document, ten forms}
+
+This strict HTML specimen exercises \textbf{bold}, \textit{italic}, \textbf{\textit{bold italic}}, \sout{strikethrough}, superscript E=mc\textsuperscript{2}, subscript H\textsubscript{2}O, \texttt{inline\_code()}, and a \href{https://github.com/PolyMarkup/morph}{titled link}.
+
+A soft line break follows this line
+and the paragraph continues here.\\
+A hard line break starts this sentence on a new visual line.
+
+A linked image is represented inline: \href{https://github.com/PolyMarkup/morph}{\includegraphics{../assets/morph-mark.svg}}. A tagged raw inline follows: {{ portable_value }}.
+
+\subsection{Blocks and structure}
+
+\begin{lstlisting}[language=rust]
+fn main() {
+    println!("one AST, many syntaxes");
+}
+\end{lstlisting}
+
+\begin{quote}
+\subsubsection{A quotation can contain structure}
+
+Blocks remain blocks, even when they are nested.
+
+\begin{itemize}
+  \item Quoted list item one
+  \item Quoted list item two
+\end{itemize}
+\end{quote}
+
+\subsection{Lists}
+
+\begin{itemize}
+  \item An unordered item with \textbf{markup}
+  \item An item containing a nested ordered list
+    \begin{enumerate}
+      \item The numbering starts at three
+      \item The next nested item
+    \end{enumerate}
+\end{itemize}
+
+\begin{enumerate}
+  \item A top-level ordered item
+  \item Another ordered item
+\end{enumerate}
+
+\subsection{Terms and definitions}
+
+\begin{description}
+  \item[\textbf{Morph}] A dependency-free markup converter. A shared document model with multiple emitters.
+  \item[Lossless] Equivalent structure survives a round trip when both formats can express it.
+\end{description}
+
+\subsection{Alignment and spans}
+
+\begin{tabular}{lcrl}
+Feature & Status & Count & Notes \\
+\hline
+\multirow{2}{*}{Tables} & Stable & 10 & All formats emit a table \\
+\multicolumn{2}{l}{This cell spans two columns} & Row span at left \\
+\end{tabular}
+
+\hrule
+
+\subsection{Native passthrough}
+
+<native key="value">
+  preserved verbatim
+</native>
