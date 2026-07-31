@@ -123,6 +123,10 @@ const PREVIEW_CSS = String.raw`
     vertical-align: top;
   }
 
+  th[align="center"], td[align="center"] { text-align: center; }
+  th[align="right"], td[align="right"] { text-align: right; }
+  th[align="left"], td[align="left"] { text-align: left; }
+
   th { background: var(--code); font-weight: 650; }
   .admonitionblock, .note, .warning, .important {
     margin: 1.2em 0;

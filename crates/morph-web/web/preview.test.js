@@ -87,4 +87,18 @@ describe("preview document isolation", () => {
     expect(document).toContain("&lt;script&gt;");
     expect(document).not.toContain("<title>Title\"><script>");
   });
+
+  it("preserves explicit HTML table alignment", () => {
+    const document = buildPreviewDocument(`
+      <table><tr>
+        <td align="left">Left</td>
+        <td align="center">Center</td>
+        <td align="right">Right</td>
+      </tr></table>
+    `);
+
+    expect(document).toContain('td[align="center"] { text-align: center; }');
+    expect(document).toContain('td[align="right"] { text-align: right; }');
+    expect(document).toContain('td[align="left"] { text-align: left; }');
+  });
 });
