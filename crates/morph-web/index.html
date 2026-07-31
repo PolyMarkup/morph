@@ -124,6 +124,19 @@
                   <button class="tool-button" id="wrap-button" type="button" aria-pressed="true">
                     Wrap
                   </button>
+                  <button
+                    class="tool-button"
+                    id="preview-button"
+                    type="button"
+                    aria-pressed="false"
+                    aria-describedby="preview-help"
+                    disabled
+                  >
+                    Preview
+                  </button>
+                  <span class="visually-hidden" id="preview-help">
+                    Convert a document before opening its preview
+                  </span>
                   <button class="tool-button" id="copy-button" type="button" disabled>Copy</button>
                   <button class="tool-button" id="download-button" type="button" disabled>
                     Download
@@ -133,8 +146,19 @@
 
               <div class="format-rail" id="format-rail" role="tablist" aria-label="Output formats"></div>
 
-              <div class="output-stage">
+              <div class="output-stage" id="output-stage">
                 <div class="editor-frame" id="output-editor" aria-label="Converted document"></div>
+                <div class="preview-pane" id="preview-pane" hidden>
+                  <iframe
+                    id="preview-frame"
+                    title="Rendered output preview"
+                    sandbox=""
+                    referrerpolicy="no-referrer"
+                  ></iframe>
+                  <div class="preview-loading" id="preview-loading" role="status" hidden>
+                    Rendering preview…
+                  </div>
+                </div>
                 <div class="empty-output" id="empty-output">
                   <span class="empty-glyph" aria-hidden="true">output</span>
                   <strong>No output yet</strong>

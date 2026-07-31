@@ -15,6 +15,11 @@ import {
   saveState,
   textStats,
 } from "./model.js";
+import {
+  buildPreviewDocument,
+  previewAvailability,
+  renderPreview,
+} from "./preview.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -29,12 +34,17 @@ const elements = {
   outputEditor: $("#output-editor"),
   formatRail: $("#format-rail"),
   emptyOutput: $("#empty-output"),
+  previewPane: $("#preview-pane"),
+  previewFrame: $("#preview-frame"),
+  previewLoading: $("#preview-loading"),
+  previewHelp: $("#preview-help"),
   convertButton: $("#convert-button"),
   openFileButton: $("#open-file-button"),
   fileInput: $("#file-input"),
   sampleButton: $("#sample-button"),
   clearButton: $("#clear-button"),
   wrapButton: $("#wrap-button"),
+  previewButton: $("#preview-button"),
   copyButton: $("#copy-button"),
   downloadButton: $("#download-button"),
   useAsSourceButton: $("#use-as-source-button"),
@@ -62,6 +72,8 @@ let results = new Map();
 let converting = false;
 let saveTimer;
 let toastTimer;
+let previewMode = false;
+let previewRequest = 0;
 
 applyTheme();
 
@@ -148,7 +160,7 @@ function renderFormatRail() {
         ? "error"
         : (result?.preservation?.status ?? "idle");
       button.setAttribute("aria-selected", String(format.id === state.targetFormat));
-      button.setAttribute("aria-controls", "output-editor");
+      button.setAttribute("aria-controls", "output-stage");
       button.textContent = format.name.replace("strict ", "");
       button.addEventListener("click", () => selectTarget(format.id));
       button.addEventListener("keydown", handleFormatTabKeydown);
@@ -188,11 +200,24 @@ function renderSelectedOutput() {
   const format = getFormat(state.targetFormat);
   const result = results.get(state.targetFormat);
   const hasOutput = Boolean(result?.output);
+  const preview = previewAvailability(state.targetFormat);
 
   elements.emptyOutput.hidden = hasOutput || Boolean(result?.error);
   elements.copyButton.disabled = !hasOutput;
   elements.downloadButton.disabled = !hasOutput;
   elements.useAsSourceButton.disabled = !hasOutput;
+  elements.previewButton.disabled = !hasOutput || !preview.supported;
+  const previewDescription = !hasOutput
+    ? "Convert a document before opening its preview"
+    : previewMode
+      ? "Return to the generated source"
+      : preview.description;
+  elements.previewButton.title = previewDescription;
+  elements.previewHelp.textContent = previewDescription;
+
+  if (previewMode && (!hasOutput || !preview.supported)) {
+    setPreviewMode(false);
+  }
 
   if (!result) {
     outputEditor.setDoc("");
@@ -213,6 +238,67 @@ function renderSelectedOutput() {
     elements.outputFormatNote.textContent = outputFilename(state.inputFilename, format.id);
   }
   renderInspectorState(result, format);
+  if (previewMode && hasOutput) renderActivePreview();
+}
+
+function setPreviewMode(enabled) {
+  const result = results.get(state.targetFormat);
+  const preview = previewAvailability(state.targetFormat);
+  previewMode = Boolean(enabled && result?.output && preview.supported);
+  previewRequest += 1;
+
+  elements.previewPane.hidden = !previewMode;
+  elements.outputEditor.setAttribute("aria-hidden", String(previewMode));
+  elements.outputEditor.inert = previewMode;
+  elements.previewButton.setAttribute("aria-pressed", String(previewMode));
+  elements.previewButton.textContent = previewMode ? "Source" : "Preview";
+  const previewDescription = previewMode
+    ? "Return to the generated source"
+    : result?.output
+      ? preview.description
+      : "Convert a document before opening its preview";
+  elements.previewButton.title = previewDescription;
+  elements.previewHelp.textContent = previewDescription;
+  elements.wrapButton.disabled = previewMode;
+  elements.wrapButton.title = previewMode ? "Return to source view to change wrapping" : "";
+
+  if (previewMode) {
+    renderActivePreview();
+  } else {
+    elements.previewLoading.hidden = true;
+    elements.previewFrame.removeAttribute("srcdoc");
+  }
+}
+
+async function renderActivePreview() {
+  const result = results.get(state.targetFormat);
+  if (!previewMode || !result?.output) return;
+
+  const request = ++previewRequest;
+  const format = getFormat(state.targetFormat);
+  elements.previewLoading.hidden = false;
+  elements.previewFrame.classList.add("is-loading");
+
+  try {
+    const markup = await renderPreview(state.targetFormat, result.output);
+    if (request !== previewRequest || !previewMode) return;
+
+    const parsed = new DOMParser().parseFromString(markup, "text/html");
+    elements.previewFrame.srcdoc = buildPreviewDocument(
+      parsed.body.innerHTML,
+      `${format.name} preview`,
+      resolvedTheme(),
+    );
+  } catch (error) {
+    if (request !== previewRequest || !previewMode) return;
+    const message = document.createElement("p");
+    message.textContent = error?.message ?? "The browser renderer could not render this output.";
+    elements.previewFrame.srcdoc = buildPreviewDocument(
+      `<h1>Preview unavailable</h1>${message.outerHTML}`,
+      `${format.name} preview error`,
+      resolvedTheme(),
+    );
+  }
 }
 
 function renderInspectorState(result, format = getFormat(state.targetFormat)) {
@@ -469,6 +555,7 @@ function applyTheme() {
   document
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute("content", theme === "dark" ? "#171714" : "#f0eadf");
+  if (previewMode) renderActivePreview();
 }
 
 function toggleTheme() {
@@ -518,6 +605,7 @@ elements.wrapButton.addEventListener("click", () => {
   elements.wrapButton.setAttribute("aria-pressed", String(state.wrap));
   scheduleSave();
 });
+elements.previewButton.addEventListener("click", () => setPreviewMode(!previewMode));
 elements.copyButton.addEventListener("click", () => {
   const output = results.get(state.targetFormat)?.output;
   if (output) copyText(output, `${getFormat(state.targetFormat).name} copied.`);
@@ -532,6 +620,10 @@ elements.inspectorToggle.addEventListener("click", () => {
 elements.dismissError.addEventListener("click", hideError);
 elements.themeToggle.addEventListener("click", toggleTheme);
 elements.clearLocalData.addEventListener("click", resetLocalData);
+elements.previewFrame.addEventListener("load", () => {
+  elements.previewLoading.hidden = true;
+  elements.previewFrame.classList.remove("is-loading");
+});
 
 for (const button of $$("[data-pane-button]")) {
   button.addEventListener("click", () => setMobilePane(button.dataset.paneButton));
