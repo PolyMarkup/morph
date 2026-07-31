@@ -40,23 +40,6 @@ fn main() {
 | AsciiDoc | both | tested |
 `;
 
-export const SPECIMEN_SOURCE = `<h1>Morph preservation specimen</h1>
-<p>This strict HTML source contains <strong>bold</strong>, <em>italic</em>, <strong><em>both</em></strong>, <del>strikeout</del>, H<sub>2</sub>O, x<sup>2</sup>, <code>inline code</code>, and a <a href="https://github.com/PolyMarkup/morph" title="Morph source">titled link</a>.<br>A hard break begins this sentence.</p>
-<blockquote>
-<p>Nested blocks remain nested.</p>
-<ul><li><p>First quoted item</p></li><li><p>Second quoted item</p></li></ul>
-</blockquote>
-<ol start="4"><li><p>Starts at four</p></li><li><p>Continues at five</p></li></ol>
-<dl><dt>Morph</dt><dd><p>A preservation-focused converter.</p></dd></dl>
-<pre><code class="language-rust">fn main() {
-    println!("ten formats");
-}</code></pre>
-<table>
-<thead><tr><th align="left">Feature</th><th align="center">State</th><th align="right">Count</th></tr></thead>
-<tbody><tr><td rowspan="2">Spans</td><td>preserved</td><td>2</td></tr><tr><td colspan="2">Two columns wide</td></tr></tbody>
-</table>
-<hr>`;
-
 const EXTENSION_ALIASES = {
   md: "md",
   markdown: "md",

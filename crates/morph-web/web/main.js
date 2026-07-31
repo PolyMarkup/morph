@@ -3,7 +3,6 @@ import { createEditor } from "./editor.js";
 import {
   FALLBACK_FORMATS,
   MAX_INPUT_BYTES,
-  SPECIMEN_SOURCE,
   defaultState,
   describeFeatureChange,
   detectFormat,
@@ -15,6 +14,7 @@ import {
   saveState,
   textStats,
 } from "./model.js";
+import { specimenFor } from "./specimens.js";
 import {
   buildPreviewDocument,
   previewAvailability,
@@ -607,14 +607,18 @@ function useOutputAsSource() {
 }
 
 function loadSpecimen() {
-  state.input = SPECIMEN_SOURCE;
-  state.inputFormat = "html";
-  state.inputFilename = "morph-preservation-specimen.html";
+  const format = getFormat(state.inputFormat);
+  const specimen = specimenFor(state.inputFormat);
+  if (!specimen) {
+    showError("Specimen unavailable", `No ${format.name} specimen is available.`);
+    return;
+  }
+  state.input = specimen;
+  state.inputFilename = `morph-preservation-specimen.${format.extension}`;
   sourceEditor.setDoc(state.input);
   sourceEditor.setFormat(state.inputFormat);
-  elements.sourceFormat.value = state.inputFormat;
   renderSourceStats();
-  invalidateResults("Preservation specimen loaded");
+  invalidateResults(`${format.name} preservation specimen loaded`);
   scheduleSave();
 }
 
