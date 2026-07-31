@@ -44,16 +44,16 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow"><span></span> Open source · Apache 2.0</p>
-          <h1 id="hero-title">One document.<br><em>Ten dialects.</em></h1>
+          <h1 id="hero-title">Markup conversion you can inspect.</h1>
           <p class="hero-lede">
-            Convert between the markup formats you actually write—then inspect
-            what survived the journey.
+            Convert between ten text formats and verify each result against
+            Morph's shared document model.
           </p>
         </div>
         <div class="hero-proof" aria-label="Morph principles">
           <div>
             <strong>10</strong>
-            <span>readers &amp; writers</span>
+            <span>input and output formats</span>
           </div>
           <div>
             <strong>0</strong>
@@ -61,7 +61,7 @@
           </div>
           <div>
             <strong>AST</strong>
-            <span>semantic comparison</span>
+            <span>round-trip verification</span>
           </div>
         </div>
       </section>
@@ -69,8 +69,8 @@
       <section class="workbench-section" id="workbench" aria-labelledby="workbench-title">
         <div class="section-heading">
           <div>
-            <p class="folio">01 / Conversion desk</p>
-            <h2 id="workbench-title">The workbench</h2>
+            <p class="folio">Workbench</p>
+            <h2 id="workbench-title">Convert a document</h2>
           </div>
           <p>
             Your draft is sent only when you convert. It is processed
@@ -133,9 +133,7 @@
             </article>
 
             <div class="conversion-spine" aria-hidden="true">
-              <span class="spine-line"></span>
-              <span class="spine-mark">M</span>
-              <span class="spine-line"></span>
+              <span class="spine-mark">→</span>
             </div>
 
             <article class="editor-panel output-panel" data-pane="output" aria-labelledby="output-title">
@@ -163,9 +161,9 @@
               <div class="output-stage">
                 <div class="editor-frame" id="output-editor" aria-label="Converted document"></div>
                 <div class="empty-output" id="empty-output">
-                  <span class="empty-glyph" aria-hidden="true">↳</span>
-                  <strong>No proof yet</strong>
-                  <p>Convert the source to set all ten formats in type.</p>
+                  <span class="empty-glyph" aria-hidden="true">output</span>
+                  <strong>No output yet</strong>
+                  <p>Run a conversion to generate all ten target formats.</p>
                 </div>
               </div>
 
@@ -207,8 +205,8 @@
 
           <div class="convert-dock">
             <div>
-              <span class="dock-kicker">Parse once</span>
-              <span>Set every supported format in one request</span>
+              <span class="dock-kicker">Single request</span>
+              <span>Parse once, then emit every supported format</span>
             </div>
             <button class="convert-button" id="convert-button" type="button">
               <span>Convert all ten</span>
@@ -221,8 +219,8 @@
       <section class="preservation-section" id="why-morph" aria-labelledby="preservation-title">
         <div class="section-heading">
           <div>
-            <p class="folio">02 / The difference</p>
-            <h2 id="preservation-title">A converter with a memory</h2>
+            <p class="folio">Preservation model</p>
+            <h2 id="preservation-title">Preservation is checked, not assumed</h2>
           </div>
           <p>
             Morph targets a smaller surface than Pandoc so it can test the
@@ -262,7 +260,7 @@
       <section class="formats-section" aria-labelledby="formats-title">
         <div class="section-heading">
           <div>
-            <p class="folio">03 / The collection</p>
+            <p class="folio">Format support</p>
             <h2 id="formats-title">Ten formats, both ways</h2>
           </div>
           <p>Strict where ambiguity would lose meaning; predictable where a target has fewer tools.</p>
@@ -272,8 +270,8 @@
 
       <section class="install-section" id="install" aria-labelledby="install-title">
         <div class="install-copy">
-          <p class="folio">04 / Take it with you</p>
-          <h2 id="install-title">The web is the proof.<br>The binary is the tool.</h2>
+          <p class="folio">Command line</p>
+          <h2 id="install-title">Use the same engine locally</h2>
           <p>
             Install the same dependency-free converter locally for scripts,
             editors, CI, and documents that should never leave your machine.
